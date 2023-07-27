@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <title>LPG Plant Dashboard</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .email-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #f13030a8;
+            border-radius: 15px;
+            background-color: #f8e16041;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .message-textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: none;
+        }
+
+        .send-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .send-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.025);
+        }
+    </style>
+</head>
+<body>
+    <script>
+        function confirmLogout() {
+        // Show the confirmation dialog
+        const confirmation = confirm("Are you sure you want to logout?");
+        
+        // If the user confirms (clicks OK), redirect to the logout URL
+        if (confirmation) {
+          window.location.href = "/";
+        }
+        
+        // Return "false" to prevent the default behavior of the link
+        // (i.e., to prevent the link from being followed immediately)
+        return false;
+      }
+    </script>
+    <style>
+        .activity .activity-data{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    
+}
+
+.activity .activity-data{
+    display: flex;
+}
+.activity-data .data{
+    display: flex;
+    flex-direction: column;
+    margin: 0 15px;
+}
+.activity-data .data-title{
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+.activity-data .data .data-list{
+    font-size: 18px;
+    font-weight: 400;
+    margin-top: 20px;
+    white-space: nowrap;
+    color: var(--text-color);
+}
+    </style>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="#" class="brand"><i class='bx bxs-smile icon'></i> LPG Plant</a>
+        <ul class="side-menu">
+            <li><a href="#" class="active"><i class='bx bxs-dashboard icon' ></i> Dashboard</a></li>
+            <li class="divider" data-text="main">Main</li>
+            <li>
+                <a href="#"><i class='bx bxs-inbox icon' ></i> LPG Home <i class='bx bx-chevron-right icon-right' ></i></a>
+                <ul class="side-dropdown">
+                    <li><a href="#">Notifications and Alerts</a></li>
+                    <li><a href="#email-section">Email & SMS</a></li>
+                    <li><a href="#">Roles</a></li>
+                    <li><a href="#">Location</a></li>
+                </ul>
+            </li>
+            <li><a href="#"><i class='bx bxs-chart icon' ></i> Graphs</a></li>
+            <!-- <li><a href="#"><i class='bx bxs-widget icon' ></i> Widgets</a></li> -->
+            <li class="divider" data-text="Data and Analysis">Table and forms</li>
+            <li><a href="#"><i class='bx bx-table icon' ></i> Tables</a></li>
+            <li>
+                <a href="#"><i class='bx bxs-notepad icon' ></i> Video Analytics <i class='bx bx-chevron-right icon-right' ></i></a>
+                <ul class="side-dropdown">
+                    <li><a href="#">Capture</a></li>
+                    <li><a href="#">Show</a></li>
+                    <li><a href="#">Checkbox</a></li>
+                    <li><a href="#">Alert</a></li>
+                </ul>
+            </li>
+        </ul>
+        <li class="mode">
+            <a href="#">
+                <i class="uil uil-moon"></i>
+                <span class="link-name">Dark Mode</span>
+            </a>
+            <!-- <button class="mode-toggle">Toggle Dark Mode</button> -->
+            <div class="mode-toggle">
+                <!-- <i class="uil uil-moon"></i> -->
+                <span class="switch"></span>
+            </div>
+        </li>
+    </section>
+    <!-- SIDEBAR -->
+
+    <!-- NAVBAR -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <!-- ... (previous code) ... -->
+
+<!-- NAVBAR -->
+<nav>
+    <i class='bx bx-menu toggle-sidebar' ></i>
+    <form action="#">
+        <div class="form-group">
+            <input type="text" placeholder="Search...">
+            <i class='bx bx-search icon' ></i>
+        </div>
+    </form>
+    <a href="#" class="nav-link">
+        <i class='bx bxs-bell icon' ></i>
+        <span class="badge">5</span>
+    </a>
+    <a href="#" class="nav-link">
+        <i class='bx bxs-message-square-dots icon' ></i>
+        <span class="badge">8</span>
+    </a>
+    <!-- <span class="greeting">Hello, </span> -->
+            <span class="current-date-time" id="currentDateTime"><!-- Current date and time --></span>
+    <span class="divider"></span>
+    <div class="profile">
+        <img src="{{ url_for('static', filename='WhatsApp Image 2023-07-22 at 16.08.22.jpg') }}" alt="">
+        <ul class="profile-link">
+            <li><a href="/profile"><i class='bx bxs-user-circle icon' ></i> Profile</a></li>
+            <li><a href="#"><i class='bx bxs-cog' ></i> Settings</a></li>
+            <!-- <a href="/" class="btn" onclick="return confirmLogout();">Logout</a> -->
+
+            <li><a href="/" onclick="return confirmLogout();"><i class='bx bxs-log-out-circle'></i> Logout</a></li>
+        </ul>
+        
+            
+        
+    </div>
+</nav>
+<!-- NAVBAR -->
+
+<script>
+    // Function to update current date and time
+    function updateDateTime() {
+        const currentDate = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true };
+        const formattedDateTime = currentDate.toLocaleString('en-US', options);
+        document.getElementById('currentDateTime').textContent = formattedDateTime;
+    }
+
+    // Update date and time every second
+    setInterval(updateDateTime, 1000);
+
+    // Initial call to set date and time on page load
+    updateDateTime();
+</script>
+
+        <!-- NAVBAR -->
+
+        <!-- MAIN -->
+        <main>
+            <h1 class="title">LPG Plant Dashboard</h1>
+            <ul class="breadcrumbs">
+                <li><a href="#">Home</a></li>
+                <li class="divider">/</li>
+                <li><a href="#" class="active">Dashboard</a></li>
+            </ul>
+            <br>
+            <span class="activity">
+                <span class="title">
+                    <i class="uil uil-clock-three"></i>
+                    <span class="text">Recent Activity</span>
+                </span>
+            </span>
+            <div class="info-data">
+                <div class="card">
+                    <div class="head">
+                        <div>
+                            <h2>1500</h2>
+                            <p>Overall Export</p>
+                        </div>
+                        <i class='bx bx-trending-up icon'></i>
+                    </div>
+                    <span class="progress" data-value="70%">70%</span>
+                    <span class="label">70%</span>
+                </div>
+                <div class="card">
+                    <div class="head">
+                        <div>
+                            <h2>234</h2>
+                            <p>Sales</p>
+                        </div>
+                        <i class='bx bx-trending-down icon down'></i>
+                    </div>
+                    <span class="progress" data-value="60%">60%</span>
+                    <span class="label">60%</span>
+                </div>
+                <div class="card">
+                    <div class="head">
+                        <div>
+                            <h2>465</h2>
+                            <p>Health</p>
+                        </div>
+                        <i class='bx bx-trending-up icon'></i>
+                    </div>
+                    <span class="progress" data-value="30%">30%</span>
+                    <span class="label">30%</span>
+                </div>
+                <div class="card">
+                    <div class="head">
+                        <div>
+                            <h2>235</h2>
+                            <p>Visitors</p>
+                        </div>
+                        <i class='bx bx-trending-up icon'></i>
+                    </div>
+                    <span class="progress" data-value="80%">80%</span>
+                    <span class="label">80%</span>
+                </div>
+            </div>
+            
+            <!-- Custom CSS for hover and scaling effect -->
+            <style>
+                /* Custom CSS for hover effect */
+                .info-data .card:hover {
+                    background-color: #e9a40e73;
+                    transform: scale(1.3);
+                }
+            
+                /* Custom CSS for scaling effect */
+                .info-data .card:hover i {
+                    transform: scale(1.2);
+                    transition: transform 0.3s ease-in-out;
+                }
+            
+                .info-data .card {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding: 20px;
+                    border: 1px solid #ccc;
+                    border-radius: 10px;
+                    margin: 10px;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease-in-out;
+                }
+            
+                .info-data .card .head {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100%;
+                }
+            
+                .info-data .card .head i {
+                    font-size: 24px;
+                }
+            
+                .info-data .card h2 {
+                    font-size: 30px;
+                    margin: 5px 0;
+                }
+            
+                .info-data .card p {
+                    font-size: 16px;
+                    margin: 0;
+                }
+            
+                .info-data .card .progress {
+                    font-size: 20px;
+                    margin-top: 10px;
+                }
+            
+                .info-data .card .label {
+                    font-size: 16px;
+                }
+            </style>
+            
+            <!-- <div class="data">
+                <div class="content-data">
+                    <div class="head">
+                        <h3>Sales Report</h3>
+                        <div class="menu">
+                            <i class='bx bx-dots-horizontal-rounded icon'></i>
+                            <ul class="menu-link">
+                                <li><a href="#">Edit</a></li>
+                                <li><a href="#">Save</a></li>
+                                <li><a href="#">Remove</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="chart">
+                        <div id="chart"></div>
+                    </div>
+                </div> -->
+                <style>
+                    /* Custom CSS for hover effect */
+                    table.table-hover tbody tr:hover {
+                        background-color: #e9a40eaf;
+                    }
+                    /* Custom CSS for scaling effect */
+                    table.table-hover tbody tr:hover img {
+                        transform: scale(2);
+                        transition: transform 0.3s ease-in-out;
+                    }
+                    /* Custom styles for the LPG Plant Data table */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+}
+
+.input-group-append button {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 0 5px 5px 0;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+/* thead {
+    background-color: #f2f2f2;
+} */
+
+tbody tr:hover {
+    background-color: #e9a40eaf;
+    cursor: pointer;
+    transform: scale(1.025);
+}
+
+tbody tr td:first-child {
+    font-weight: bold;
+}
+
+.btn-primary {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Adding responsive styles for smaller screens */
+@media (max-width: 768px) {
+    input[type="text"] {
+        width: 100%;
+        border-radius: 5px;
+    }
+
+    .input-group-append {
+        margin-top: 10px;
+    }
+}
+
+                </style>
+                
+            
+
+                <span class="container mt-4">
+                    <h2>LPG Plant Data</h2>
+                    <span class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search ..." id="searchInput">
+                        <span class="input-group-append">
+                            <button class="btn btn-primary" type="button" id="searchButton">Search</button>
+                        </span>
+                    </span>
+                    <button class="btn btn-primary" type="button" id="showAllButton">Show All</button>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Location</th>
+                                <th>Production (MT)</th>
+                                <th>Consumption (MT)</th>
+                                <th>Stock (MT)</th>
+                                <th>Tanker Arrived</th>
+                                <th>Tanker Departed</th>
+                                <th>Pressure (bar)</th>
+                                <th>Temperature (°C)</th>
+                                <th>Firewall</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lpgPlantData">
+                            <tr>
+                                <td>Nashik</td>
+                                <td>15000</td>
+                                <td>12000</td>
+                                <td>3000</td>
+                                <td>10</td>
+                                <td>8</td>
+                                <td>3.5</td>
+                                <td>32</td>
+                                <td>Up</td>
+                            </tr>
+                            <tr>
+                                <td>Pune</td>
+                                <td>13000</td>
+                                <td>11000</td>
+                                <td>2000</td>
+                                <td>8</td>
+                                <td>6</td>
+                                <td>3.8</td>
+                                <td>30</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Mumbai</td>
+                                <td>12000</td>
+                                <td>10000</td>
+                                <td>3000</td>
+                                <td>6</td>
+                                <td>5</td>
+                                <td>3.5</td>
+                                <td>32</td>
+                                <td>down</td>
+                            </tr>
+                            <tr>
+                                <td>Delhi</td>
+                                <td>14000</td>
+                                <td>12000</td>
+                                <td>3500</td>
+                                <td>7</td>
+                                <td>6</td>
+                                <td>3.2</td>
+                                <td>28</td>
+                                <td>Up</td>
+                            </tr>
+                            <tr>
+                                <td>Chennai</td>
+                                <td>11000</td>
+                                <td>9000</td>
+                                <td>1800</td>
+                                <td>5</td>
+                                <td>4</td>
+                                <td>3.9</td>
+                                <td>29</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Bengaluru</td>
+                                <td>11500</td>
+                                <td>9500</td>
+                                <td>2200</td>
+                                <td>4</td>
+                                <td>3</td>
+                                <td>4.0</td>
+                                <td>31</td>
+                                <td>down</td>
+                            </tr>
+                            <tr>
+                                <td>Kolkata</td>
+                                <td>10500</td>
+                                <td>8800</td>
+                                <td>2100</td>
+                                <td>3</td>
+                                <td>2</td>
+                                <td>3.7</td>
+                                <td>27</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Hyderabad</td>
+                                <td>12500</td>
+                                <td>10500</td>
+                                <td>2500</td>
+                                <td>5</td>
+                                <td>4</td>
+                                <td>3.6</td>
+                                <td>30</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Ahmedabad</td>
+                                <td>10000</td>
+                                <td>8200</td>
+                                <td>1900</td>
+                                <td>6</td>
+                                <td>5</td>
+                                <td>3.2</td>
+                                <td>29</td>
+                                <td>down</td>
+                            </tr>
+                            <tr>
+                                <td>Jaipur</td>
+                                <td>9500</td>
+                                <td>7800</td>
+                                <td>1600</td>
+                                <td>4</td>
+                                <td>3</td>
+                                <td>3.9</td>
+                                <td>28</td>
+                                <td>Up</td>
+                            </tr>
+                            <tr>
+                                <td>Patna</td>
+                                <td>8800</td>
+                                <td>7200</td>
+                                <td>1400</td>
+                                <td>3</td>
+                                <td>2</td>
+                                <td>3.5</td>
+                                <td>26</td>
+                                <td>Up</td>
+                            </tr>
+                            <tr>
+                                <td>Lucknow</td>
+                                <td>9200</td>
+                                <td>7600</td>
+                                <td>1700</td>
+                                <td>5</td>
+                                <td>4</td>
+                                <td>3.8</td>
+                                <td>29</td>
+                                <td>down</td>
+                            </tr>
+                            <tr>
+                                <td>Surat</td>
+                                <td>9900</td>
+                                <td>8100</td>
+                                <td>2000</td>
+                                <td>4</td>
+                                <td>3</td>
+                                <td>3.7</td>
+                                <td>28</td>
+                                <td>down</td>
+                            </tr>
+                            <tr>
+                                <td>Nagpur</td>
+                                <td>8500</td>
+                                <td>6900</td>
+                                <td>1600</td>
+                                <td>3</td>
+                                <td>2</td>
+                                <td>3.4</td>
+                                <td>27</td>
+                                <td>Up</td>
+                            </tr>
+                            <tr>
+                                <td>Indore</td>
+                                <td>9000</td>
+                                <td>7500</td>
+                                <td>1800</td>
+                                <td>5</td>
+                                <td>4</td>
+                                <td>3.5</td>
+                                <td>29</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Thane</td>
+                                <td>9800</td>
+                                <td>8000</td>
+                                <td>2100</td>
+                                <td>4</td>
+                                <td>3</td>
+                                <td>3.6</td>
+                                <td>30</td>
+                                <td>Up</td>
+                            </tr>
+                            <tr>
+                                <td>Vadodara</td>
+                                <td>9200</td>
+                                <td>7500</td>
+                                <td>1900</td>
+                                <td>5</td>
+                                <td>4</td>
+                                <td>3.3</td>
+                                <td>28</td>
+                                <td>down</td>
+                            </tr>
+                            <tr>
+                                <td>Ludhiana</td>
+                                <td>8900</td>
+                                <td>7200</td>
+                                <td>1700</td>
+                                <td>3</td>
+                                <td>2</td>
+                                <td>3.2</td>
+                                <td>27</td>
+                                <td>-</td>
+                            </tr>
+                            
+                            <!-- Add more rows with sample data here -->
+                        </tbody>
+                    </table>
+                </span>
+                <hr>
+                <div class="container mt-4" id="email-section">
+                    <form id="email-form" method="POST" action="/send_email">
+                        <div class="email-section">
+                            <h2 class="mb-4">Send Email</h2>
+                            <input type="text" class="email-input" id="email-input" name="emails" placeholder="Enter recipient's emails (separated by commas or spaces)" required>
+                            <textarea id="message-textarea" class="message-textarea" name="message" placeholder="Enter your email message" required="please"></textarea>
+                            <button type="submit" id="send-button" class="send-button">Send</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- <script>
+                    document.getElementById("email-form").addEventListener("submit", function(event) {
+                        event.preventDefault();
+                
+                        // Get the email and message from the input fields
+                        const recipients = document.getElementById("email-input").value;
+                        const message = document.getElementById("message-textarea").value;
+                
+                        // Send an AJAX request to the backend
+                        const xhr = new XMLHttpRequest();
+                        xhr.open("POST", "/send_email", true);
+                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if (xhr.status === 200) {
+                                    // Email sent successfully
+                                    showAlert("Email sent successfully.");
+                                } else {
+                                    // Failed to send email
+                                    showAlert("Failed to send email. Please try again later.");
+                                }
+                            }
+                        };
+                
+                        const formData = new FormData();
+                        formData.append("emails", recipients);
+                        formData.append("message", message);
+                
+                        xhr.send(formData);
+                    });
+                
+                    function showAlert(message) {
+                        // Create a new alert element
+                        const alertElement = document.createElement("div");
+                        alertElement.className = "alert";
+                        alertElement.textContent = message;
+                
+                        // Append the alert element to the email-section div
+                        document.getElementById("email-section").appendChild(alertElement);
+                
+                        // Automatically remove the alert after 3 seconds
+                        setTimeout(function() {
+                            alertElement.remove();
+                        }, 3000);
+                    }
+                </script> -->
+                
+                <script>
+                    const rows = document.getElementById("lpgPlantData").getElementsByTagName("tr");
+                    const showAllButton = document.getElementById("showAllButton");
+                
+                    document.getElementById("searchButton").addEventListener("click", function () {
+                        let searchTerm = document.getElementById("searchInput").value.toLowerCase();
+                        for (let i = 0; i < rows.length; i++) {
+                            let rowText = rows[i].innerText.toLowerCase();
+                            if (rowText.includes(searchTerm)) {
+                                rows[i].style.display = "table-row";
+                            } else {
+                                rows[i].style.display = "none";
+                            }
+                        }
+                    });
+                
+                    showAllButton.addEventListener("click", function () {
+                        for (let i = 0; i < rows.length; i++) {
+                            rows[i].style.display = "table-row";
+                        }
+                    });
+                    
+                </script>
+                
+                <!-- <script>
+                    function goBack() {
+                        window.history.back();
+                    }
+            
+                    // You can add JavaScript code here for search functionality if needed
+                    // For simplicity, it's left blank in this example
+                </script> -->
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- NAVBAR -->
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
